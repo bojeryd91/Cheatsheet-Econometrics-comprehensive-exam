@@ -1,0 +1,1464 @@
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about.
+% Head down to where it says "Start here"
+% --------------------------------------------------------------
+ 
+%\documentclass[10pt]{article}
+\documentclass[9pt]{extarticle}
+ 
+\usepackage[landscape, margin=0.5in, letterpaper]{geometry} 
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+
+
+\usepackage{placeins}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{mathrsfs}
+\usetikzlibrary{calc}
+\usetikzlibrary{backgrounds}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{adjustbox}
+
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\MM}{\mathbb{M}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\XX}{\mathbb{X}}
+\newcommand{\UU}{\mathbb{U}}
+\newcommand{\YY}{\mathbb{Y}}
+\newcommand{\var}{\mathbb{V}\text{ar}}
+\newcommand{\OO}{\mathcal{O}}
+
+% Define indicator variable
+\DeclareSymbolFont{bbold}{U}{bbold}{m}{n}
+\DeclareSymbolFontAlphabet{\mathbbold}{bbold}
+\newcommand{\bi}{\mathbbold{1}}
+
+% Small sum sign
+\newcommand{\ssum}{\bgroup \textstyle \sum \egroup}
+
+\newcommand{\hbeta}{\hat{\beta}}
+
+\usepackage{multicol}
+\setlength{\columnsep}{0.3cm}
+
+\setlength{\footskip}{18pt}
+
+% Remove space around section, subsections, etc.
+\usepackage{titlesec}
+\titlespacing\section{0pt}{6pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsection{0pt}{4pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsubsection{0pt}{0pt plus 4pt minus 2pt}{0pt plus 0pt minus 2pt}
+
+% Remove space above \paragraph
+\makeatletter
+\renewcommand{\paragraph}{%
+  \@startsection{paragraph}{4}%
+  {\z@}{0.25ex \@plus 1ex \@minus .2ex}{-1em}%
+  {\normalfont\normalsize\bfseries}%
+}
+\makeatother
+
+% Decrease space between items in lists
+\usepackage{enumitem}
+\setlist{nosep}
+
+% Remove space around equations
+\usepackage{etoolbox}
+\newcommand{\zerodisplayskips}{%
+  \setlength{\abovedisplayskip}{0pt}%
+  \setlength{\belowdisplayskip}{0pt}%
+  \setlength{\abovedisplayshortskip}{0pt}%
+  \setlength{\belowdisplayshortskip}{0pt}}
+\appto{\normalsize}{\zerodisplayskips}
+\appto{\small}{\zerodisplayskips}
+\appto{\footnotesize}{\zerodisplayskips}
+
+\setlength{\parindent}{0ex}
+\renewcommand{\baselinestretch}{1.2}
+
+\usepackage{lipsum} 
+
+\newcommand{\comments}[1]{\textcolor{red}{#1}}
+
+\newcommand{\darrow}{\overset{d}{\rightarrow}}
+\newcommand{\parrow}{\overset{\PP}{\rightarrow}}
+\newcommand{\asarrow}{\overset{a.s.}{\rightarrow}}
+\newcommand{\Ltwoarrow}{\overset{L^2}{\rightarrow}}
+
+\def\liao{0}
+% Command to comment out material for Liao's final
+\usepackage{comment}
+\if\liao0
+  \newenvironment{noshow}{}{}
+\else
+  \excludecomment{noshow}
+\fi
+
+\begin{document}
+ 
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+
+\begin{noshow}
+\begin{center}
+    \large\textbf{Cheatsheet for Econ 203A--C Comp 2019 by Jesper Bojeryd -- jesperbojeryd@ucla.edu}
+\end{center}
+\end{noshow}
+
+\begin{multicols*}{4}
+\section*{Distributions}
+\begin{noshow}
+A CDF $F(t)$ is right continuous, i.e., $\lim_{\Delta \downarrow 0} F(t + \Delta) = F(t).$ \emph{CADLAG}.
+
+\subsection*{Transformation of distr.} 
+If $g$ is a 1--1, differentiable function, then $Y = g(X)$ has pdf
+\begin{equation*}
+    f_Y(y) = f_X(g^{-1}(y)) \left | \frac{\partial  g^{-1}(y)}{\partial y}\right |.
+\end{equation*}
+In multivariate case, analogously,
+\begin{gather*}
+    f_Y(y_1, \ldots{}, y_n) = \\ =
+    f_X(g_1^{-1}(y_1), \ldots{}, g_n^{-1}(y_n))|J|.
+\end{gather*}
+\end{noshow}
+\subsection*{Student's theorem}
+Let $X_1, \ldots, X_n$ be i.i.d. r.v. $\sim \mathcal{N}(\mu, \sigma^2)$ and $S_n^2 \equiv \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X}_n)^2$. Then,
+\begin{enumerate}
+    \item $\bar{X}_n = \mathcal{N}(\mu, \sigma^2/n)$;
+    \item $\bar{X}_n$ and $S_n^2$ are independent;
+    \item $(n-1)S_n^2/\sigma^2 \sim \chi^2(n-1)$;
+    \item $\displaystyle T \equiv \frac{\bar{X}_n-\mu}{S_n/\sqrt{n}} \sim t(n-1)$.
+\end{enumerate}
+
+\subsection*{Gamma distribution}
+$\text{supp}(X) = \RR^+$ \\
+PDF: $f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1} e^{-\beta x}$, CDF: \emph{omit.} \\
+MGF: $M(t) = (1 - t/\beta)^{-\alpha}$ for $t < \beta$ \\
+$\EE[X] = \alpha/\beta$, $\var[X] = \alpha/\beta^2$ \\
+\textbf{Notes:} $\Gamma(1) = 1$, $\Gamma(\alpha) = (\alpha - 1)\Gamma(\alpha-1)$, if $1 < \alpha \in \NN$, $\Gamma(\alpha) = (\alpha-1)!$, $\Gamma(1/2) = \sqrt{\pi}$.
+
+\subsection*{$\chi^2(r)$ distribution}
+$\text{supp}(X) = \mathbb{R}^+$, PDF: \emph{omit.} \\
+MGF: $M(t) = (1-2t)^{-r/2}$ for $t < 1/2$ \\
+$\EE[X] = r$, $\var[X] = 2r$
+
+\paragraph{Notes:} For a seq. $\{X_i \sim \chi^2(r_i)\}_{i=1}^n$ of indep. r.v., $\sum_{i=1}^n X_i \sim \chi^2(\sum_{i=1}^n r_i)$.\\
+If $Z \sim \mathcal{N}(0,1)$, then $Z^2 \sim \chi^2(1)$
+
+\subsection*{Poisson distribution}
+$\text{supp}(X) = \{0, 1, 2,  \ldots{}\}$ \\
+PMF: $f(x) = \frac{\lambda^x \exp(-\lambda)}{x!}$, CMF: \emph{omit.} \\
+MGF: $M(t) = \exp(\lambda(e^t - 1))$ \\
+$\EE[X] = \lambda$, $\var[X] = \lambda$
+
+\begin{noshow}
+\subsection*{Binomial distribution}
+$X = k$ successes in a sequence of $n$ i.i.d. draws.\\
+PDF: $\displaystyle f(k) = \binom{n}{k} p^k (1-p)^{n-k}$ \\
+CDF: $F(k) = \sum_{i=1}^k f(i)$ \\
+MGF: $M(t) = (1-p +p \exp(t))^n$ \\
+$\EE[X] = np$, $\var[X] = np(1-p)$
+
+\subsection*{$\text{Bernoulli}(p)$ distribution}
+$\displaystyle X= \begin{cases}1, & \text{w/ prob.}~p \\ 
+0, & \text{w/ prob.}~1-p\end{cases}$ \\
+PMF: $f(x) = p^x(1-p)^{1-x}$ \\
+MGF: $M(t) = q + p e^t$ \\
+$\EE[X] = p, \var[X] = p - p^2$
+
+
+\begin{noshow}
+\subsection*{Normal distribution $\mathcal{N}(\mu, \sigma^2)$}
+PDF: $\displaystyle f(x) = \frac{1}{\sqrt{2\pi \sigma^2}} \exp \left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$ \\
+CDF: $F(x) = \Phi((x-\mu)/\sigma)$ \\
+MGF: $M(t) = \exp(\mu t + \sigma^2 t^2/2)$
+
+\paragraph{Notes:} For a seq. normally distr. independent r.v. $\displaystyle \{X_i \overset{\text{indep.}}{\sim} \mathcal{N}(\mu_i,\sigma_i^2)\}_{i=1}^n$, $\sum_{i=1}^n X_i \sim \mathcal{N}(\sum_{i=1}^n \mu_i, \sum_{i=1}^n \sigma_i^2)$. \\
+If $X \sim \mathcal{N}(\mu, \Sigma)$, then the linear comb. $Ax+b \sim \mathcal{N}(A\mu + b, A \Sigma A')$.
+
+For $\mathcal{N}(0,1)$: $\EE[X] = 0$, $\EE[X^2] = 1$, $\EE[X^3] = 0$, $\EE[X^4] = 3$, $\EE[X^5] = 0$, $\EE[X^6] = 105$
+\end{noshow}
+
+
+\subsection*{Uniform distribution $U[a,b]$}
+$\text{supp}(X) = [a,b ]$ \\
+PDF: $f(x) = \frac{1}{b-a}$ \\
+CDF: $F(x) = \frac{x-a}{b-a}$ \\
+MGF: $\displaystyle M(t) = \begin{cases}
+\frac{\exp(tb)-\exp(ta)}{t(b-a)} &\text{if} ~t \neq 0 \\
+1 &\text{if} ~t = 0
+\end{cases}$ \\
+$\EE[X] = (a+b)/2$, $\var[X] = (b-a)^2/12$
+\end{noshow}
+
+\subsection*{Student's $t$-distribution $t(\nu)$}
+Def: $\displaystyle t(\nu) = \frac{\mathcal{N}(0,1)}{\sqrt{\chi^2(n)/n}}$, $\nu = n -1 $ \\
+MGF: $\not \exists$, $\EE[X] = 0$ if $\nu > 1$, $\EE[X] = $ undef. if $\nu \leq 1$, $\var[X] = \nu/(\nu-2)$ if $\nu > 2$, $\var[X] = \infty$ if $\nu \leq 2$
+
+\begin{noshow}
+\subsection*{Exponential distr. $\textnormal{Exp}(\lambda)$}
+$\text{supp}(X) = \mathbb{R}^+$ \\
+PDF: $f(x) = \lambda \exp(-\lambda x)$ \\
+CDF: $F(x) = 1-\exp(-\lambda x)$ \\
+MGF: $\frac{\lambda}{\lambda - t}$, for $t < \lambda$ \\
+$\EE[X] = \lambda^{-1}$, $\var[X] = \lambda^{-2}$
+
+\end{noshow}
+
+\begin{noshow}
+\subsection*{F distribution}
+For $U \sim \chi^2(r_1)$, $V \sim \chi^2(r_2)$, $W \equiv \frac{U/r_1}{V/r_2}$. Then $W \sim F(r_1, r_2)$. \\
+PDF: \emph{omit.}, MGF: $\not \exists$ \\
+$\EE[X] = r_2/(r_1-2)$ for $r_2 > 2$, \\
+$\displaystyle \var[X] = \frac{2r_2^2(r_1+r_2-2)}{r_1(r_2-2)^2(r_2-4)}$ for $r_2 > 4$
+
+
+
+\section*{$\EE[\cdot]$, $\PP[\cdot]$, $M(t)$, etc.}
+\paragraph{LoUS:}
+$\EE[g(X)] = \int_\Omega g(x) \text{d}F_X(x)$
+
+\paragraph*{MGF:} For a r.v. $X$, $M(t) \equiv \EE[e^{Xt}]$ for $-h < t < h$ where the expectation exists.
+
+MGF generalize to joint r.v.'s $X_1$, $X_2$: $M_{X_1, X_2}(t_1, t_2) \equiv \EE[e^{X_1 t_1 + X_2 t_2}]$.
+
+Also, $M_{X_1}(t_1) = M_{X_1,X_2}(t_1,0)$.
+
+For pos. integers $m$, $\EE[X^m] = M^{(m)}(0)$.
+
+\paragraph{A useful thm:} $F_Y(s) = F_X(s), ~\forall s \Leftrightarrow M_Y(t) = M_X(t), ~\forall t \in (-h,h)$.
+
+\paragraph{DeMorgan's Laws:}
+\begin{align*}
+    (C_1 \cup C_2)^C &= C_1^C \cap C_2^C, \\
+    (C_1 \cap C_2)^C &= C_1^C \cup C_2^C.
+\end{align*}
+
+\paragraph{Boole's inequality:}
+\begin{align*}
+    \PP\left(\cup_{i=1}^{n} C_{i}\right) \leq \sum_{i=1}^{n} \PP \left(C_{i}\right)
+\end{align*}
+
+\paragraph{Bonferroni's inequality:} \begin{align*}
+    \PP\left(C_{1}\cap C_{2}\right)\geq \PP\left(C_{1}\right)+\PP\left(C_{2}\right)-1
+\end{align*}
+
+\paragraph{Permutations:}
+\begin{align*}
+    \PP_{k}^{n}=\frac{n!}{\left(n-k\right)!}
+\end{align*}
+
+\paragraph{Combinations:}
+\begin{align*}
+    C_{k}^{n}= \binom{n}{k} =\frac{n!}{k!\left(n-k\right)!}
+\end{align*}
+
+\end{noshow}
+
+\section*{Inequalities}
+\paragraph{Markov's inequality:} If $\EE[|X|] < \infty$ and $a > 0$, then
+\begin{align*}
+    \PP(|X| > a) \leq \frac{\EE[|X|]}{a}
+\end{align*}
+
+\paragraph{Chebyshev's inequality:}
+\begin{align*}
+    \PP(\left |X-\mu_X \right | > b) \leq \frac{\sigma_X^2}{b^2}
+\end{align*}
+
+\paragraph{Jenses's inequality:} For a convex $\phi$,
+\begin{align*}
+    \phi(\EE[X]) \leq \EE[\phi(X)]
+\end{align*}
+
+
+\begin{noshow}
+\section*{Indep. \& cond.}
+\paragraph{Def. of indep. events:}
+\begin{align*}
+    \PP(A \cap B) = \PP(A)\PP(B)
+\end{align*}
+
+\paragraph{Def. of $\EE[ \,\cdot\, | \,\cdot\,]$:}
+For r.v.'s $X,Y$,
+\begin{equation*}
+    \EE[Y | X] \equiv \arg \min_\varphi \EE[(Y - \varphi(X))^2]
+\end{equation*}
+
+\paragraph{Law of Total Probability:}
+\begin{align*}
+    \PP(A) = \sum_{i=1}^n \PP(A | C_i) \PP(C_i)
+\end{align*}
+\paragraph{Law of Total Expectation:}
+\begin{align*}
+    \EE(X) = \sum_{i=1}^n \EE[X | C_i] \PP(C_i)
+\end{align*}
+\paragraph{Bayes' rule:}
+\begin{align*}
+    \PP(A | B) = \PP(B | A) \frac{\PP(B)}{\PP(A)}
+\end{align*}
+\paragraph{Law of Iterated Expectations:}
+\begin{align*}
+    \EE[Y] = \EE[\EE[Y | X]]
+\end{align*}
+\paragraph{Take-out-what's-known:}
+\begin{align*}
+    \EE[h(X)Y | X] = h(X)\EE[Y | X]
+\end{align*}
+
+\end{noshow}
+
+
+\section*{Convergences}
+\begin{noshow}
+\subsubsection*{Monotone Conv. Thm.}
+For a seq. meas., non-neg. func. $\{f_n\}_n$ on $(\Omega, \mathcal{F}, \PP)$, s.t. $f_n < f_{n+1}$ and $f_n \rightarrow f$,
+\begin{equation*}
+    \lim_{n\rightarrow \infty} \EE[f_n] = \EE[f].
+\end{equation*}
+\subsubsection*{Dominated Conv. Thm.}
+For a seq. meas. func. $\{f_n\}_n$ on $(\Omega, \mathcal{F}, \PP)$, suppose p-w conv. a.s. to a func. $f$, and $\exists g > 0$, and
+\begin{equation*}
+    |f_n(x)| \leq |g(x)|~\forall x,n, ~\text{and}~ \EE[|g|] < \infty.
+\end{equation*}
+Then $\EE[|f|] < \infty$, and
+\begin{equation*}
+    \lim_{n \rightarrow \infty} \EE[f_n] = \EE[f].
+\end{equation*}
+
+\subsubsection*{Central limit theorem:} If $X_i$ is an i.i.d. seq.,
+\begin{gather*}
+    \sqrt{n}(\bar{X}_n - \EE[X]) \darrow \mathcal{N}(0, \sigma^2)
+\end{gather*}
+
+\subsubsection*{Delta method:}
+If $\sqrt{n}(X_n - \theta) \darrow \mathcal{N}(0, \sigma^2)$ and $g(\cdot)$ is continuously differentiable at $\theta$, then
+\begin{equation*}
+    \sqrt{n}(g(X_n) - g(\theta)) \darrow \mathcal{N}(0, \sigma^2[g'(\theta)]^2).
+\end{equation*}
+\end{noshow}
+
+\subsubsection*{Convergence in $\PP$, $L^r$, $d$, $a.s.$}
+$\asarrow$: $P\left(\left\{ w:X_{n}\left(w\right)\rightarrow X\left(w\right)\right\} \right)=1$
+
+$\overset{L^r}{\rightarrow}$: $E\left[\left|X_{n}-X\right|^{r}\right]\rightarrow0$
+
+$\parrow$: If $\forall \epsilon>0$, we have
+\begin{align*}
+    &\underset{n\rightarrow\infty}{\lim}P\left[\left|X_{n}-X\right|\geq\epsilon\right]=0 \equiv \\ \equiv &\underset{n\rightarrow\infty}{\lim}P\left[\left(X_{n}-X\right)<\epsilon\right]=1.
+\end{align*}
+
+$\darrow$: For $\left\{ X_{n}\right\}$ and $X$, let the cdfs be $F_{X_{n}}$ and $F_{X}$. Let $C\left(F_{X}\right)$ denote the set of $x$ where $F_{X}$ is continuous. $X_{n} \darrow X$ if
+\begin{align*}
+    \underset{n\rightarrow\infty}{\lim}F_{X_{n}}\left(x\right) &= \underset{n\rightarrow\infty}{\lim}P\left(X_{n}\in\left(-\infty,x\right]\right)= \\
+    & = F_{X}\left(x\right), \forall x\in C\left(F_{X}\right).
+\end{align*}
+
+\paragraph{Bounded in prob.:} if $\forall\epsilon>0$, $\exists B_\epsilon > 0$ s.t. $\forall n\geq N_{\epsilon} \in \ZZ$, $\PP[|X_{n}|\leq B_{\epsilon}]\geq 1-\epsilon$, then $X_n$ is bound. in prob.
+
+\subsubsection*{About $\OO_p(1), o_p(1)$, etc.}
+
+\begin{tabular}{l}
+$\bullet$ If $X_n \darrow X$, then $X_n + o_p(1) \darrow X$ \\
+$\bullet$ $(a+o_p(1)) + (b + o_p(1))X_n \darrow a + bX$ \\
+$\bullet$ $\OO_p\left(1\right)+\OO_p\left(1\right)=\OO_p\left(1\right)$ \\
+$\bullet$ $\OO_p\left(1\right)\cdot \OO_p\left(1\right)=\OO_p\left(1\right)$ \\
+$\bullet$ $\OO_p\left(1\right)\cdot o_{p}\left(1\right)=o_{p}\left(1\right)$ \\
+$\bullet$ $o_{p}\left(1\right)+o_{p}\left(1\right)=o_{p}\left(1\right)$ \\
+$\bullet$ $o_{p}\left(1\right)\cdot o_{p}\left(1\right)=o_{p}\left(1\right)$ \\
+$\bullet$ $\left(X+o_{p}\left(1\right)\right)+\left(Y+o_{p}\left(1\right)\right)=$ \\
+$\qquad = X+Y+o_{p}\left(1\right)$ \\
+%
+$\bullet$ $\left(X+o_{p}\left(1\right)\right)\cdot\left(Y+o_{p}\left(1\right)\right) =$ \\
+$\qquad = X\cdot Y+o_{p}\left(1\right)$ \\
+$\bullet$ $g\left(a+o_{p}\left(1\right)\right)=g\left(a\right)+o_{p}\left(1\right)$ \\
+$\bullet$ For r.v. $X$, $X\cdot o_p(1) = o_p(1)$.
+\end{tabular}
+
+$\darrow$ does \textbf{not} imply $\overset{L^s}{\rightarrow}$.
+
+\adjustbox{scale=1.,center}{%
+\begin{tikzcd}[arrows=Rightarrow]
+\overset{L^r}{\rightarrow} \arrow{r}{\text{if}~s < r} & \overset{L^s}{\rightarrow} \arrow{d} \\
+\overset{a.s.}{\rightarrow} \arrow{r}{} & \parrow \arrow{r}{} & \darrow
+\end{tikzcd}}
+
+$X_n \darrow X$ and $Y_n \darrow Y$ (\emph{marginal} conv.) does \textbf{not} imply $(X_n, Y_n) \darrow (X,Y)$ (\emph{joint} conv.).
+
+\subsubsection*{Cont. Mapp. Thm and Slutsky:}
+If $X_n \darrow X$ and $g(\cdot)$ is cont., then $g(X_n) \darrow g(X)$. If $A_n \parrow a$ and $B_n \parrow b$ ($a,b$ are const.), then $A_n X_n + B_n \darrow aX +b$.
+
+\section*{Identification}
+\paragraph{Def:} $h^*$ is identified within $H$ $\Leftrightarrow$ $\forall h \neq h^* \in H$, $F_{Y,X}(\,\cdot\,; h) \neq F_{Y,X}(\,\cdot\, ; h^*)$.
+
+\begin{noshow}
+\section*{Linear regressions}
+\subsection*{Geometric intuition}
+\begin{gather*}
+    \PP_n \equiv \XX_n(\XX_n' \XX_n)^{-1} \XX_n', ~ \MM_n \equiv I_n - \PP_n \\
+    \PP_n\PP_n = \PP_n, ~\MM_n \MM_n = \MM_n, ~\PP_n \XX_n = \XX_n \\
+    \PP_n \MM_n = 0, ~\PP_n \MM_n = 0, ~\MM_n \XX_n = 0
+\end{gather*}
+Also, $\| a \|^2 = \| \PP_n a\|^2 + \| \MM_n a\|^2$.
+
+\subsection*{OLS regression}
+Estimator:
+\begin{gather*}
+    \hbeta_n = (\XX_n' \XX_n)^{-1}\XX_n' \YY_n = \\
+    = \left( \frac{1}{n}\sum_{i=1}^n X_i X_i\right)^{-1} \frac{1}{n} \sum_{i=1}^n X_i Y_i \\
+    \PP_n \YY_n = \XX_n \hbeta_n
+\end{gather*}
+
+\paragraph{OLS assumptions:}
+\begin{enumerate}
+    \item $\{Y_i, X_i\}_{i=1}^n$ is i.i.d.;
+    \item $\EE[Y^2] < \infty$;
+    \item $\EE[X X']< \infty$ and invertible,
+    \item $\EE[\|X\|^2U^2] < \infty$
+\end{enumerate}
+$\hbeta_n$ is a consistent estimator if OLS 1--3 hold.
+
+\paragraph{Asympt. norm.:} If OLS 1, 3, 4 hold,
+\begin{gather*}
+    \sqrt{n}(\hbeta_n - \beta_0) \darrow \\ \mathcal{N}\big(0, (\EE[XX'])^{-1}\EE[XX' U^2](\EE[XX'])^{-1} \big)
+\end{gather*}
+
+\textbf{Homosk.} If $\EE[U^2 | X] = \sigma^2$ w.p. 1 over $X$.
+
+\subsubsection*{OLS w/ intercept}
+\begin{align*}
+    (\alpha, \beta) = \arg \min_{a, b} \sum_{i=1}^n (Y_i - a - Z_i'b)^2
+\end{align*}
+\begin{align*}
+    \hbeta_n = \frac{\sum_{i=1}^n (Y_i - \bar{Y}_n)(Z_i - \bar{Z}_n)}{\sum_{i=1}^n (Z_i - \bar{Z}_n)^2}.
+\end{align*}
+
+
+
+\subsubsection*{Conditional mean is linear}
+Assume $\EE[Y | X] =X'\gamma_{0}$, i.e., linear. By LoIE, $\EE[(Y-X'\gamma_{0})X] = \EE[YX]-\EE[YX]=0$, which implies that $\EE\left[\left(Y-X'\gamma_{0}\right)X\right]=\EE\left[\left(Y-X'\beta_{0}\right)X\right]$ or that $\beta_{0}=\gamma_{0}$, whenever $\EE\left[XX'\right]$ is full rank.
+
+Thus, the OLS estimand $\beta_{0}$ corresponds to the cond. exp. param. in $E\left[Y|X\right]=X'\beta_{0}$.
+
+\subsubsection*{Best linear predictor}
+If $Y\in \RR$, $X\in \RR$, $\EE[Y^{2}] < \infty$, and $\EE[XX']$ is full rank, then \begin{align*}
+    \beta_{0} &\equiv\arg\underset{b\in\mathbb{R}^{d}}{\min}E\left[\left(Y-X'b\right)^{2}\right] = \\
+    &=\arg\underset{b\in\mathbb{R}^{d}}{\min}E\left[\left(E\left[Y|X\right]-X'b\right)^{2}\right].
+\end{align*}
+
+\paragraph{Meas. of fit:} $R^{2} \equiv 1-\frac{RSS}{TSS}$ where,
+\begin{align*}
+    RSS &\equiv \frac{1}{n}\sum_{i=1}^{n}((Y_{i}-\bar{Y}_{n})-(X_{i}-\bar{X}_{n})'\hat{\beta}_{n})^{2} \\
+    TSS &\equiv \frac{1}{n}\sum_{i=1}^{n}(Y_{i}-\bar{Y}_{n})^{2}
+\end{align*}
+
+
+
+
+
+
+
+
+\paragraph{The Wald test:} Suppose for the single linear restriction we choose a $r\in\mathbb{R}^{d}$ and $b\in\mathbb{R}$ and we are interested in testing: $H_{0}:r'\beta_{0}=b$ versus $H_{1}:r'\beta_{0}\neq b$. A special case would be setting $r$ to a vector of zeros with one one and setting $b=0$, which would test a single regressor is equal to zero.
+
+The Wald test is set up so we reject for large values:
+
+$\phi_{n}\equiv \bi( \frac{1}{\sqrt{r'\hat{\Sigma}_{n}r}}\left|\sqrt{n}( r'\hat{\beta}_{n}-b) \right|>c_{1-\alpha/2}) $
+
+\textbf{Thm} Let the OLS-2 hold, $\sigma^{2}\equiv r'\Sigma_{0}r, Z\sim \mathcal{N}(0,1)$, and
+\begin{gather*}
+\Sigma_{0}\equiv \EE\left[XX'\right] ^{-1}\EE\left[XX'U^{2}\right]  \EE\left[XX'\right]^{-1}.
+\end{gather*}
+If $r'\beta_{0}=b$, then it follows:
+\begin{gather*}
+    \left|\sqrt{n}\left\{ r'\hat{\beta}_{n}-b\right\} \right|\overset{d}{\rightarrow}\left|\sigma_{0}Z\right|\sim\left|\mathcal{N}\left(0,r'\Sigma_{0}r\right)\right|
+\end{gather*}
+
+\textbf{Thm} If OLS-2 holds, $\hat{\Sigma}_{n}\overset{p}{\rightarrow}\Sigma_{0}$, $\sigma_{0}>0$, and $r'\beta_{0}=b$, then (where $c_{1-\alpha}$ is the $1-\alpha$ quantile of the standard normal random variable):
+\begin{gather*}
+\underset{n\rightarrow\infty}{\lim}\PP(\frac{\sqrt{n}}{\sqrt{r'\hat{\Sigma}_{n}r}}\left| r'\hat{\beta}_{n}-b \right|>c_{1-\alpha/2})=\alpha.
+\end{gather*}
+
+
+
+
+
+
+
+
+\section*{IV regression}
+IVs are used when $X$ is correlated with $\epsilon$, in which case OLS results will be biased. Such correlation may occur
+\begin{enumerate}
+\item when changes in $Y$ change the value of at least one of the covariates (''reverse'' causation);
+\item when there are omitted variables that affect both $Y$ and $X$; or
+\item when $X$ is subject to non-random measurement error.
+\end{enumerate}
+$X$ is \emph{endogenous} if any of above cases apply. If an instrument is available, consistent estimates may be obtained. An instrument is a variable that does not itself belong in the explanatory equation but is correlated with the endogenous explanatory variables, conditional on the value of other covariates.
+
+\paragraph{Estimand:} $\beta_0$ solves
+\begin{align*}
+    \EE[(Y-X'\beta_0)Z] = 0
+\end{align*}
+
+\paragraph{Estimator:}
+\begin{align*}
+    \hat{\beta}_n &= \arg \min_{b \in \RR^{d_x}} \| \frac{1}{n}\sum_{i=1}^n(Y_i-X_i'b)Z_i\|^2 \\
+    &= (\XX_n' \ZZ_n \hat{\Omega}_n \ZZ_n' \XX_n')^{-1} \XX_n' \ZZ_n \hat{\Omega}_n \ZZ_n' \YY_n
+\end{align*}
+
+\paragraph{Consistency:} If $\{Y_i\in\RR, X_i\in\RR^{d_x}, Z_i\in\RR^{d_z}\}_{i=1}^n$ is i.i.d. and holds for the moment condition for some $\beta_0$; $\hat{\Omega}_n \rightarrow \Omega$ for some $\Omega$, $\text{rank}(\EE[XZ']) = d_x$; and $\EE[\|X Z'\|] < \infty$, then $\hat{\beta}_n$ is a consistent estimator of $\beta_0$.
+
+\paragraph{Asympt. norm.:} Under same assumptions as for consistency, and $\EE[Z Z' U^2] < \infty$, then the limit distr. of $\sqrt{n}(\hat{\beta}_n - \beta_0)$ is
+\begin{align*}
+    \mathcal{N}(0, K\EE[XZ']\Omega \EE[ZZ'U^2]\Omega \EE[ZX']K)
+\end{align*}
+where $K = (\EE[XZ']\Omega\EE[ZX'])^{-1}$.
+\end{noshow}
+
+
+\subsubsection*{2SLS and 3SLS/Choice of $\Omega$:}
+Choosing $\hat{\Omega}_{n}=\left(\frac{1}{n}\sum_{i=1}^{n}{\sum}Z_{i}Z'_{i}\right)^{-1}$ is \textbf{2SLS}, equiv. with the following algorithm:
+
+\begin{enumerate}
+    \item Regress $\XX_n$ on $\ZZ_n$ and fit $\hat{\XX}_{n}$.
+    \item Regress $\YY_n$ on $\hat{\XX}_{n}$ to estimate $\beta_{0}$.
+\end{enumerate}
+
+We can see the equivalence from plugging in the 2SLS $\hat{\Omega}_{n}$ into the $\hat{\beta}_{n}$ equation:
+\begin{align*}
+\hat{\beta}_{n}	&=[ \XX'_{n}\ZZ_{n}(\ZZ'_{n}\ZZ_{n})^{-1}\ZZ'_{n}\XX_{n}]^{-1} \\
+& \qquad \XX'_{n}\ZZ_{n}(\ZZ'_{n}\ZZ_{n})^{-1}\ZZ'_{n}\YY_{n} = \\
+%
+%
+&= [(\PP_{n}^{Z}\XX_n)'(\PP_{n}^{Z}\XX_{n})]^{-1} (\PP_{n}^{Z}\XX_{n})'\YY_{n} = \\
+&=(\hat{XX}_n'\hat{XX}_n)^{-1}\hat{XX}_n'\YY_n.
+\end{align*}
+Remember: $\PP_{n}^{Z}\equiv\ZZ_{n}\left(\ZZ'_{n}\ZZ_{n}\right)^{-1}\ZZ'_{n}$.
+
+\textbf{3SLS} corresponds to the following: 
+\begin{enumerate}
+    \item Obtain $\tilde{\beta}_{n}$ that is consistent for $\beta_{0}$.
+    \item Create $\tilde{U}_{i}=(Y_{i}-X'_{i}\tilde{\beta}_{n})$ and set $\hat{\Omega}_{n}=(\frac{1}{n}\sum_{i=1}^{n}{\sum}Z_{i}Z'_{i}\tilde{U}_{i}^{2})$.
+    \item Solve $\hat{\beta}_{n} = $ $$=[ \XX'_{n}\ZZ_{n}\hat{\Omega}_{n}\ZZ'_{n}\XX_{n}] ^{-1}{\XX'_{n}\ZZ_{n}\hat{\Omega}_{n}\ZZ'_{n}\YY_{n}}$$ with $\hat{\Omega}_{n}$.
+\end{enumerate}
+
+\iffalse
+3SLS is eff. in that it achieves the smallest asympt. variance where we take all linear comb. of the coeff. Say we are comparing two estimators $\hat{\theta}_{1}$ and $\hat{\theta}_{2}$ for a common parameter $\theta_{0}\in\mathbb{R}^{d}$ by studying
+\begin{gather*}
+    \var\left[ c'\left(\hat{\theta}_{1}-\theta_{0}\right)\right] \leq \var\left[] c'\left(\hat{\theta}_{2}-\theta_{0}\right)\right], \\
+    \forall c\in\mathbb{R}^{d}.
+\end{gather*}
+\fi
+%This would imply that all coord. of $\hat{\theta}_{1}$ have a smaller variance than the corresp. coord. of $\hat{\theta}_{2}$. If these variances exist for each estimator, then we can move them both to the same side of the ineq., move $c$ outside and plug in their variance values to obtain the equivalent statement $c'\left(\Sigma_{2}-\Sigma_{1}\right)c\geq0,\forall c$. I.e., $\Sigma_{2}-\Sigma_{1}$ is pos. semidefinite.
+
+%There is a lower bound for the asympt. variance of the IV estimator of $(\EE[XZ'] (\EE[ZZ'U^{2}]) ^{-1}\EE[ZX'])^{-1}$. Thus,  we need to find $\hat{\Omega}_{n}$ that delivers this asympt. variance that we estimate in the above algoirthm for 3SLS.
+
+
+
+\subsubsection*{LATE -- Local aver. treat. effect}
+$Y\in\mathbb{R}$, $D\in\{ 0,1\}$, and $Z\in\{ 0,1\}$ such that we observe: $Y=Y\left(0\right)+D\left(Y\left(1\right)-Y\left(0\right)\right)$, $D\left(1\right)$ if $Z=1$, and $D\left(0\right)$ if $Z=0$; i.e., $Z$ affects the treatment decision. Similarly we observe: $D=D\left(0\right)+Z\left(D\left(1\right)-D\left(0\right)\right)$.
+
+We make two LATE assumptions:
+
+\vbox{LATE-1
+\begin{enumerate}[label=(\alph*)]
+    \item $(Y(1),Y(0),D(1),D(0))\bot Z$;
+    \item $\PP\left(D\left(1\right)\neq D\left(0\right)\right)>0$. 
+\end{enumerate}}
+
+\vbox{LATE-2:
+\begin{enumerate}[label=(\alph*)]
+    \item monotonicity: $D(1)\geq D(0)$ a.s. -- no defiers.
+\end{enumerate}}
+
+We can obtain the LATE estimator using 2SLS to estimate the $\beta$ that we assume solves the moment restrictions:
+\begin{gather*}
+    \EE[\left(Y-\beta_{00}-D\beta_{01}\right)\begin{bmatrix}
+1\\
+Z
+\end{bmatrix}]=0
+\end{gather*}
+If we solved this out, we would find that:
+\begin{gather*}
+    \beta_{01}=\frac{\mathbb{C}\text{ov}[Y,Z]}{\mathbb{C}\text{ov}[ D,Z ]}.
+\end{gather*}
+By Law of total expectations,
+\begin{gather*}
+    \beta_{01}=\frac{\EE\left[Y|Z=1\right]-\EE\left[Y|Z=0\right]}{\EE\left[D|Z=1\right]-\EE\left[D|Z=0\right]},
+\end{gather*}
+or using LATE-1 that we have:
+\begin{gather*}
+\beta_{01}=\frac{\EE\left[\left(Y\left(1\right)-Y\left(0\right)\right)\left(D\left(1\right)-D\left(0\right)\right)\right]}{\EE\left[D\left(1\right)-D\left(0\right)\right]}
+\end{gather*}
+Under LATE-2 we then have:
+\begin{gather*}
+\beta_{01}=E\left[Y\left(1\right)-Y\left(0\right)|D\left(1\right)-D\left(0\right)=1\right].
+\end{gather*}
+This $\beta_{01}$ is the TE on the compliers/LATE.
+
+
+\section*{Panel data}
+\subsubsection*{Clustered data}
+
+\paragraph{Thm} Assuming
+\begin{enumerate}
+\item $\left\{ Y_{i},X_{i}\right\} _{i=1}^{n}$ is i.i.d.;
+\item $\EE\left[\sum_{t=1}^{T}X_{it}U_{it}\right]=0$; 
+\item $\EE\left[X'_{i}X_{i}\right]$ is finite and invertible; and,
+\item $\ssum_{t=1}^{T}\EE\left[\left\Vert X_{it}\right\Vert ^{2}U_{it}^{2}\right]<\infty$;
+\end{enumerate}
+then:
+\begin{gather*}
+    \sqrt{n}(\hat{\beta}_{n}-\beta_{0}) \darrow \\
+    \mathcal{N}(0, (
+    %
+   S\EE[(\sum_{t=1}^T X_{it}U_{it})(\sum_{t=1}^{T} X_{it}U_{it})']S),
+\end{gather*}
+where $S =  \EE[X_{i}'X_{i}])^{-1}$.
+
+We can then estimate the asympt. variance of $\hbeta_n$ with the sample analogue:
+\begin{gather*}
+\hat{S}\frac{1}{n}\sum_{i=1}^{n}\left((\sum_{t=1}^{T}X_{it}\hat{U}_{it})(\sum_{t=1}^{T}X_{it}\hat{U}_{it})'\right)\hat{S}
+\end{gather*}
+where $\hat{U}_{it}\equiv Y_{it}-X'_{it}\hat{\beta}_{n}$ and $\hat{S} = \left(\frac{1}{n}\sum_{i=1}^{n}X_{i}'X_{i}\right) ^{-1}$.
+
+\vbox{Split the middle term into a ``standard term'' and a 2nd corr.-within-cluster term:
+\begin{gather*}
+\frac{1}{n}\sum_{i=1}^{n}\left((\sum_{t=1}^{T}X_{it}\hat{U}_{it})(\sum_{t=1}^{T}X_{it}\hat{U}_{it})'\right) = \\
+= \frac{1}{n} \sum_{i=1}^n \sum_{t=1}^T X_{it} X_{it}' \hat{U}_{it}^2 + \\
++ \frac{2}{n}\sum_{i=1}^n \sum_{t=1}^{T-1} \sum_{t' > t} X_{it} X'_{it'} \hat{U}_{it} \hat{U}_{it'}.
+\end{gather*}}
+
+\subsubsection*{Random Effects}
+Assume $U_{it}$ contains an individual error $A_{i}$ and an individual-time error $V_{it}$, s.t.:
+\begin{gather*}
+    Y_{it}=X'_{it}\beta_{0}+\underset{U_{it}}{\underbrace{A_{i}+V_{it}}}
+\end{gather*}
+
+In an RE model, we assume that $X_{it}$ is exogenous, i.e. uncorrelated with $(A_{i}, V_{it})$ as well as that $A_{i}$ and $V_{it}$ are i.i.d.. In FE  we are concerned with corr. b/w $A_{i}$ and $X_{it}$.
+
+
+
+
+
+\textbf{RE-1}:
+\begin{enumerate}[label=(\roman*)]
+    \item $\{Y_{i},X_{i}\}_{i=1}^{n}$ is i.i.d. and satisfies the RE model;
+    \item $\EE\left[A_{i}|X_{i}\right]=0$ and $\EE[V_{i}|X_{i},A_{i}]=0$; 
+    \item $\EE[A_{i}^{2}|X_{i}]=\sigma_{A}^{2}$ and $\EE[V_{i}V'_{i}|X_{i},A_{i}]=\sigma_{V}^{2}I_{T}$
+\end{enumerate}
+
+RE-1 (ii) implies $E\left[\left(Y_{it}-X'_{it}\beta_{0}\right)X_{it}\right]=0,\forall1\leq t\leq T\land1\leq\tilde{t}\leq T\implies E\left[X'_{i}\Omega\left(Y_{i}-X_{i}\beta_{0}\right)\right]=0$
+
+\textbf{RE-2:}
+\begin{enumerate}[label=(\roman*)]
+    \item $\hat{\Omega}_{n}\overset{p}{\rightarrow}\Omega \land E\left[X'_{i}\Omega X_{i}\right]$ is full rank;
+    \item $E\left[\left\Vert X_{i}\right\Vert ^{2}\right]<\infty$.
+\end{enumerate}
+Given RE-2 (i),
+\begin{gather*}
+    \hat{\beta}_{n}^\text{re} = ( \frac{1}{n} \sum_{i=1}^n X'_i \hat{\Omega}_n X_i )^{-1} (\frac{1}{n}\sum_{i=1}^n X'_i\hat{\Omega}_n Y_i).
+\end{gather*}
+
+\paragraph{Asympt. norm.:} Let $\Sigma\equiv \EE[U_{i}U'_{i}|X_{i}]$ and RE-1 and RE-2 hold. Then:
+\begin{gather*}
+    \sqrt{n}\left(\hat{\beta}_{n}^\text{re}-\beta_{0}\right) \darrow \\
+    \mathcal{N}\left(0,S \EE\left[X'_{i}\Omega\Sigma\Omega X_{i}\right]S \right)
+\end{gather*}
+where $S \equiv \left(\EE\left[X'_{i}\Omega X_{i}\right]\right)^{-1}$
+
+From the asympt. var. for the \comments{FE} estimator, we can see that, as in IV, there is an efficient $\Omega=\Sigma^{-1}\equiv\left(E\left[U_{i}U'_{i}|X_{i}\right]\right)^{-1}$.
+
+We have the following procedure for RE:
+\begin{enumerate}
+    \item Obtain a $\tilde{\beta}_{n}$ that is consistent for $\beta_{0}$ -- for instance by solving the sample analogue of the moment conditions with $\hat{\Omega}_{n}=I_{T}$.
+    \item Employing $\tilde{\beta}_{n}$ create residuals $\tilde{U}_{it}=\left(Y_{it}-X'_{it}\tilde{\beta}_{n}\right)$ and motivated by the structure of $E\left[U_{i}U'_{i}|X_{i}\right]$ let:
+    \begin{align*}
+        \hat{\alpha}_{A}^{2} &\equiv\frac{1}{nT\left(T-1\right)/2} \cdot \\ &\quad \cdot \sum_{i=1}^{n}\sum_{t=1}^{T-1}\sum_{\tilde{t}=t+1}^{T}\tilde{U}_{it}\tilde{U}_{i\tilde{t}} \\
+        \hat{\alpha}_{B}^{2}&\equiv\frac{1}{nT}\sum_{i=1}^{n}\sum_{t=1}^{T}\left(\tilde{U}_{it}\right)^{2}-\hat{\sigma}_{A}^{2}
+    \end{align*}
+    \item Employing $\hat{\sigma}_{A}^{2}$ and $\hat{\sigma}_{B}^{2}$, compute $\hat{\beta}_{n}^\text{re}$ by solving the $\hat{\beta}_{n}^\text{re}$ estimation problem with $\hat{\Omega}_{n}$ set to equal $\hat{\sigma}_{A}^{2} + \hat{\sigma}_{B}^{2}$ on the diagonal and $\hat{\sigma}_{A}^{2}$ o/w.
+\end{enumerate}
+
+
+\subsection*{Fixed Effects}
+In FE model, we maintain the same model but change our assumption on the residual $U_{it}$:
+\begin{align*}
+    Y_{it}=X'_{it}\beta_{0}+\underset{U_{it}}{\underbrace{A_{i}+V_{it}}}
+\end{align*}
+where $U_{it}$ contains an individual specific $A_{i}$, and an individual and time specific $V_{it}$, and:
+
+\textbf{FE-1}
+\begin{enumerate}[label=(\roman*)]
+    \item $\left\{ Y_{i},X_{i}\right\} _{i=1}^{n}$ is i.i.d. from FE model;
+    \item $\EE\left[V_{i}|X_{i},A_{i}\right]=0$
+\end{enumerate}
+We no longer require that $\EE\left[A_{i}|X_{i}\right]=0$.
+
+\paragraph{FE as Demeaning}
+We have: $\dot{Y}_{it}\equiv Y_{it}-\overline{Y}=\dot{X}'_{it}\beta_{0}+\dot{V}_{it}$ and
+\begin{gather*}
+    \EE[\dot{V}_{it}\dot{X}_{it}] = \EE[(V_{it}-\overline{V}_{i})(X_{it}-\dot{X}_{i})] = \\
+    = \EE[\EE[(V_{it}-\overline{V}_{i})|X_{i}](X_{it}-\dot{X}_{i})] = 0.
+\end{gather*}
+Define FE regressor as:
+\begin{gather*}
+    \hat{\beta}_{n}^{\mathrm{fe}}\equiv\arg\underset{b\in\mathbb{R}^{d}}{\min}\frac{1}{nT}\sum_{i=1}^{n}\sum_{t=1}^{T}\left(\dot{Y}_{it}-\dot{X}'_{it}b\right)^{2}.
+\end{gather*}
+Thus this becomes the usual OLS problem.
+
+\textbf{FE-2}
+\begin{enumerate}[label=(\roman*)]
+    \item $\sum_{t=1}^{T}\EE\left[\dot{X}_{it}\dot{X}'_{it}\right]$ is full rank;
+    \item $\displaystyle \EE\left[(\sum_{t=1}^{T}\dot{X}_{it}\dot{V}{}_{it})(\sum_{t=1}^{T}\dot{X}_{it}\dot{V}_{it})'\right]<\infty$
+\end{enumerate}
+
+ 
+
+\paragraph{Asympt. norm.:} Given FE-1 and FE-2, then:
+\begin{gather*}
+    \sqrt{n}\left(\hat{\beta}_{n}^{\mathrm{fe}}-\beta_{0}\right) \darrow \\
+    \mathcal{N}\left(0,B \EE\left[(\sum_{t=1}^{T}\dot{X}_{it}\dot{V}{}_{it})(\sum_{t=1}^{T}\dot{X}_{it}\dot{V}{}_{it})'\right]B\right)
+\end{gather*}
+where $B \equiv (\sum_{t=1}^{T}\EE\left[\dot{X}_{it}\dot{X}'_{it}\right])^{-1}$. We can estimate this variance with sample analogues.
+
+
+
+
+
+
+
+
+
+\section*{Hypothesis testing}
+\paragraph{Basic concepts:}
+A \textbf{test} $\varphi$ is a procedure to choose between two hypotheses $H_0$ and $H_1$. $\{H_0, H_1\}$ is a partition.
+\begin{gather*}
+    H_0 : \theta \in \Theta_0 \subset \Theta~\text{v.s.}~ H_1 : \theta \in \Theta_1 \subset \Theta. \\
+    %
+    \text{or, }~H_0: \PP \in \mathbf{P}_0 ~\text{v.s.}~H_1: \PP \in \mathbf{P}_1~\quad\,\,\,\,\,
+\end{gather*}
+
+
+
+The \textbf{critical region} $C_\varphi$ characterizes $\varphi$. Given data $X$, $\varphi$ rejects $H_0$ if $X \in C_\varphi$.
+
+\paragraph{Type-1 error} is when $H_0$ is rejected but true. The prob. of type-1 error is
+\begin{equation*}
+    P_\theta(\text{test}~\varphi~\text{rejects}~H_0) = P_\theta(C_\varphi), ~\theta \in \Theta_0
+\end{equation*}
+
+
+\paragraph{Type-2 error} is when $H_0$ is accepted and false.
+\begin{equation*}
+    P_\theta(\text{test}~\varphi~\text{rejects}~H_1) = P_\theta(C_\varphi'), ~\theta \in \Theta_1.
+\end{equation*}
+
+\paragraph{Size of a test} is the highest prob. of type-1 error over all $\theta \in \Theta_0$. That is,
+\begin{gather*}
+    \text{Size of test}~\varphi = \sup_{\theta\in\Theta_0} P_\theta(C_\varphi) = \sup_{\mathbf{P}_0} \EE_{\PP_0}[\phi_n]
+\end{gather*}
+
+\paragraph{Test $\varphi$ has sign. lvl $\alpha$} if the size of $\varphi$ is $\leq \alpha$. A test has several sign. lvl., i.e., $\alpha \in [\text{size of}~\varphi, 1]$.
+
+\paragraph{The power of a test} is the highest prob. of $\varphi$ rejecting $H_0$ when $H_1$ is true.
+\begin{equation*}
+    \text{Power of}~\varphi = P_\theta(C_\varphi),~ \text{for any}~ \theta \in \Theta_1.
+\end{equation*}
+
+
+\paragraph{A p-value} is ``the probability under the null hypothesis of observing a more extreme outcome than the data $X$''.
+\begin{equation*}
+    \text{p-value} \equiv \inf \{\alpha \in [0,1]: X \in C_\varphi^\alpha \}.
+\end{equation*}
+
+\subsection*{UMP Test and N-P Lemma}
+\paragraph{The power function} of $\varphi$ is
+\begin{equation*}
+    K_\varphi(\theta) \equiv P_\theta(\varphi~\text{rejects}~H_0).
+\end{equation*}
+
+\paragraph{Uniformly Most Powerful:} A test $\varphi$ is UMP with sign. lvl $\alpha$ if
+\begin{gather*}
+    \sup_{\theta \in \Theta_0} K_\varphi(\theta) \leq \alpha,~\text{and} \\
+    K_\varphi(\theta) \geq K_{\varphi_*}(\theta)~\text{for any}~\theta \in \Theta_1,
+\end{gather*}
+where $\varphi_* \neq \varphi$ has sign. lvl $\alpha$.
+
+A UMP test exists when the null and alternative hypothesis are simple.
+
+\paragraph{N-P Lemma:} Let $X = (X_1, \ldots{}, X_n)$ have pdf $f(x; \theta)$ and define the (simple) hypotheses
+\begin{equation*}
+    H_0: \theta = \theta_0~\text{v.s.}~H_1: \theta = \theta_1.
+\end{equation*}
+Consider a test $\varphi$ with critical region
+\begin{equation*}
+    C_\varphi \equiv \{ x \in \Omega_{X,n} : \frac{f(x; \theta_1)}{f(x; \theta_0)} > k_\alpha \},
+\end{equation*}
+where $k_\alpha$ is chosen so that the size of $\varphi$ is $\alpha$. Then:
+\begin{itemize}
+    \item $\varphi$ is a UMP test with sign. lvl $\alpha$;
+    \item any UMP test with sign. lvl $\alpha$ must be a size-$\alpha$ test;
+    \item if $f(x;\theta_1) \neq k_\alpha f(x;\theta_0)$ a.s., then all level-$\alpha$ UMP tests are identical a.s.
+\end{itemize}
+
+\subsection*{Different tests}
+\paragraph{Likelihood ratio test:}
+A LRT has critical region
+\begin{align*}
+    C_\varphi = &\{x = X: \lambda(x) \equiv \\
+    & \quad \frac{\max_{\theta \in \Theta} f(x; \theta)}{\max_{\theta \in \Theta_0} f(x; \theta)} > k_\alpha \},
+\end{align*}
+where the significance level of the test is
+\begin{equation*}
+    \alpha = \max_{\theta \in \Theta_0} P_\theta(\lambda(x) > k_\alpha).
+\end{equation*}
+
+\paragraph{A thm:} If certain ML regularity conditions hold, then, under $\Theta_0$,
+\begin{gather*}
+    LRT_n = 2 \ln \left ( \frac{\max_{\theta \in \Theta} f(x; \theta)}{\max_{\theta \in \Theta_0} f(x; \theta)} \right) \darrow \\
+    \darrow \chi^2(r), ~\text{as}~n \rightarrow \infty,
+\end{gather*}
+where $\Theta_0 = \{\theta \in \Theta: h(\theta) = 0_r\}$, and $r$ is \# restr. imposed on the parameters by $\Theta_0$.
+
+\paragraph{Wald test:}
+Take a function $h : \mathbb{R}^k \rightarrow \mathbb{R}^r$, where $k$ is \# parameters and $r$ \# restr. Then,
+\begin{equation*}
+    H_0: h(\theta) = 0_r, ~\text{v.s.}~ H_1: h(\theta) \neq 0_r.
+\end{equation*}
+Suppose $\hat{\theta}_n$ satisfies
+\begin{equation*}
+    \sqrt{n}(\hat{\theta}_n - \theta) \overset{d}{\rightarrow} \mathcal{N}(0, V(\theta)) ~\text{as}~n\rightarrow \infty.
+\end{equation*}
+Also, suppose there is a consistent estimator $\hat{V}(\hat{\theta}_n) \overset{p}{\rightarrow} V(\theta)$. Then,
+\begin{gather*}
+    W_n \equiv \\ 
+    \sqrt{n}(h(\hat{\theta}_n))' \left [H(\hat{\theta}_n) \hat{V}_n(\hat{\theta}_n) H'(\hat{\theta}_n) \right ]^{-1} \\
+    \sqrt{n}h(\hat{\theta}_n) \darrow \chi^2(r).
+\end{gather*}
+$H$ denotes Jacobian. The Wald test has
+\begin{equation*}
+    C_\varphi = \{X_n \in \Omega_{X,n} : W_n(X_n) > k_\alpha \},
+\end{equation*}
+where $k_\alpha$ is the $\alpha$ quantile of $\chi^2(r)$.
+
+\section*{Time series}
+\paragraph{Strict stationarity:} $X_t$ is strict. stat. if
+\begin{equation*}
+    (X_{t_1+h}, \ldots{}, X_{t_n+h}) \overset{d}{=} (X_{t_1}, \ldots{}, X_{t_n})
+\end{equation*}
+for any $h$, $t_1$, and $n$.
+
+\paragraph{Autocov. func.:} If $X_t$ has $\EE[X_t^2] < \infty$, $\forall t,s$, then
+\begin{equation*}
+    K_X(t,s) \equiv \EE \Big [ (X_t-\EE[X_t])(X_s - \EE[X_s])\Big].
+\end{equation*}
+
+Also,
+\begin{equation*}
+    \Gamma_X(h) \equiv K_X(h,0), ~\forall h \in \ZZ.
+\end{equation*}
+Also, $\Gamma_X(-h) = \Gamma_X(h)$.
+
+\paragraph{Weakly stationarity:} A process $X_t$ is weak. stat. if
+\begin{enumerate}[label=(\alph*)]
+    \item $\EE[X_t^2] < \infty$ for any $t$;
+    \item $\EE[X_t] = c \in \mathbb{R}$ for any $t$;
+    \item $K_X(t,s) = K_X(t+h,s+h) = ~$ $= \Gamma_X(t-s)$ for any $t,s,h \in \ZZ$.
+\end{enumerate}
+
+A strict. stat. $X_t$ with $\var[X_t] < \infty$ is also weakly stationary.
+
+A weak. stat. Gaussian process is also strict. stat.
+
+\paragraph{Auto-corr. func:} $\rho_X(h)$ of $X_t$ is
+\begin{equation*}
+    \rho_X(h) \equiv \frac{\Gamma_X(h)}{\Gamma_X(0)}, \quad \forall h \in \ZZ.
+\end{equation*}
+
+\paragraph{IID Noise:} $X_t$ is IID noise if obs. are i.i.d., $\EE[X_t] = 0$, $\EE[X_t^2] = \sigma^2 < \infty$, and if
+\begin{equation*}
+    K_X(t,s) =  \begin{cases}
+    \sigma^2, &\text{if}~s=t, \\
+    0, &\text{if}~s\neq t.
+    \end{cases}
+\end{equation*}
+IID noise is stationary.
+
+\paragraph{White noise:} A seq. $X_t$ is $WN$ if the autocorr. is zero, $\EE[X_t] = 0$, and $\EE[X_t^2] = \sigma^2 < \infty$.
+
+IID noise is white noise.
+
+\paragraph{A LLN:} If $\{X_t\}_{t \in \ZZ}$ is weak. stat., and $\Gamma_X(h) \rightarrow 0$ as $h \rightarrow 0$, then, as $n\rightarrow \infty$,
+\begin{equation*}
+    \var[\bar{X}_n] = \EE\left[(\bar{X}_n - \EE[X_t])^2\right] \rightarrow 0.
+\end{equation*}
+Also, if $\sum_{h = - \infty}^\infty |\Gamma_X(h)| < \infty$, then
+\begin{equation*}
+    n\var[\bar{X}_n] \rightarrow \sum_{h=-\infty}^{\infty} \Gamma_X(h)~\text{as}~n \rightarrow \infty.
+\end{equation*}
+
+\section*{ARMA processes}
+\paragraph{Definition:} A rand. seq. $\{X_t\}_{t \in \ZZ}$ is an ARMA($p,q$) if it is stationary and
+\begin{equation*}
+    X_t + \sum_{k=1}^p \phi_k X_{t-k} =  u_t + \sum_{i=1}^q \theta_i u_{t-i},
+\end{equation*}
+where $u_j \sim WN(0, \sigma^2)$, and $\phi_k, \theta_i \in \RR$.
+
+An alternative representation is
+\begin{equation*}
+    \Phi(L)X_t = \theta(L)u_t.
+\end{equation*}
+
+\paragraph{Causal repr. of ARMA} is an abs. sum. seq. $\{\varphi_k\}_{k=0}^\infty$ s.t.
+\begin{equation*}
+    X_t = \sum_{k=0}^\infty \varphi_k u_{t-k} = \varphi(L) u_t, ~\forall t.
+\end{equation*}
+
+\textbf{Theorem 8:} An ARMA process is causal iff the AR part $\phi(L)$ has no roots $|x| < 1$. And $\theta(L)$ has no common roots with $\phi(L)$.
+
+\paragraph{Find causal repr. of an ARMA($p,q$):}
+For $\phi(L) X_t = \theta(L) \epsilon_t$:
+\begin{enumerate}
+    \item Find roots $\lambda_i$ of the characteristic polynomial, i.e., $\phi(z) = 0$.
+    \item Then define caus. repr. $\psi(L)$ by
+    \begin{gather*}
+        X_t  = \psi(L) \epsilon_t ~ \Rightarrow \\
+        \Rightarrow ~\theta(L) = \phi(L)\psi(L)
+    \end{gather*}
+    \item By matching of coefficients, identify $\psi_i$ from the coefficient of $L^i$.
+    \item Use that $\psi_i = \sum_{j=1}^p c_j \lambda_j^{-i}$.
+\end{enumerate}
+
+\subsubsection*{Auto-cov. function of ARMA:}
+\paragraph{Y-W formulas:} An ARMA($p,q$) $X_t = \varphi(L) u_t$ has $\Gamma_X(h)$ given by:
+\begin{align*}
+    \text{If}~h \leq q\text{:} ~&\quad \Gamma_X(h) + \sum_{k=1}^p \phi_k \Gamma_X(h-k) = \\
+    &\qquad =\sigma^2 \sum_{k=h}^q \theta_k \varphi_{k-h}.
+\end{align*}
+\begin{align*}
+    \text{If}~h > q\text{:} ~\Gamma_X(h) + \sum_{k=1}^p \phi_k \Gamma_X(h-k) = 0.
+\end{align*}
+
+When $u_t \sim WN$:
+\begin{equation*}
+    \Gamma_X(h) = \Gamma_u(0)\sum_{k=-\infty}^\infty \varphi_k \varphi_{k+h}, ~\forall h. 
+\end{equation*}
+
+\paragraph{Theorem 6:} If $\{u_t\}_{t \in \ZZ}$ is weak. stat., $\EE[u_t] = \mu_u$,  $\{\varphi_k\}_{k=0}^\infty$ is abs. sum., then $X_t$, defined by
+\begin{equation*}
+    X_t \equiv \sum_{k=-\infty}^\infty \varphi_k u_{t-k} = \varphi(L)u_t
+\end{equation*}
+is stat. with mean $\mu_u \sum_{k=-\infty}^\infty \varphi_k$ and
+\begin{equation*}
+\Gamma_X(h) = \sum_{j=-\infty}^\infty \sum_{k=-\infty}^\infty \varphi_j \varphi_k \Gamma_u(h+k-j).
+\end{equation*}
+
+If seq. of $\Gamma_u$ is abs. sum., then so is $\Gamma_X$.
+
+
+
+
+
+
+
+
+
+
+\section*{Specific processes}
+\subsection*{MA(2) $X_t = \epsilon_t + \theta_1 \epsilon_{t-1} + \theta_2 \epsilon_{t-2}$:}
+\begin{align*}
+    \Gamma_X(0) &= (1+\theta_1^2 + \theta_2^2)\sigma^2, \\
+    \Gamma_X(1) &= (\theta_1 + \theta_1\theta_2)\sigma^2, \\
+    \Gamma_X(2) &= \theta_2 \sigma^2, \quad \Gamma_X(h) = 0, ~|h| > 2.
+\end{align*}
+
+\subsection*{AR(1) $X_t = \phi X_{t-1} + \epsilon_t$:}
+Causal repr.:
+\begin{align*}
+    X_t = \sum_{j=0}^\infty \phi^{j} \epsilon_{t-j}.
+\end{align*}
+\begin{align*}
+    \Gamma_X(h) = \frac{\sigma^2 \phi^{|h|}}{1 - \phi^2},~\forall h.
+\end{align*}
+
+\subsection*{AR(2) $X_t = \phi_1X_{t-1} + \phi_2 X_{t-2} + \epsilon_t$:}
+\begin{align*}
+    \Gamma_X(0) &= \frac{1-\phi_2}{1 + \phi_2}\frac{\sigma^2}{(1-\phi_2)^2 - \phi_1^2}. \\
+    \Gamma_X(1) &= \frac{\phi_1}{1-\phi_2}\Gamma_X(0) \\
+    \Gamma_X(h) &= \phi_1 \Gamma_X(h-1) + \phi_2 \Gamma_X(h-2).
+\end{align*}
+
+\subsection*{ARMA(1,1) $(1+\phi L)X_t = (1+\theta L)u_t$:} 
+Causal repr.: $\varphi_0 = 1$ and $\varphi_j = \phi^j - \theta \phi^{j-1}$
+\begin{align*}
+    \Gamma_X(0) &= \frac{\theta^2 - 2\phi\theta + 1}{1-\phi^2}\sigma^2, \\
+    \Gamma_X(1) &= \frac{(1-\phi\theta)(\theta - \phi)}{1-\phi^2}\sigma^2, \\
+    \Gamma_X(h) &= (-\phi)^{h-1} \Gamma_X(1), ~\forall |h| > 1.
+\end{align*}
+
+
+
+
+
+
+
+
+
+
+\section*{Martingale Limit Theory}
+\paragraph{Martingale def.:} $\{X_t\}_{t \in \ZZ}$ is m-g $\Leftrightarrow$
+\begin{equation*}
+    \EE[X_t | \mathcal{F}_s] = X_s, \quad \forall t > s.
+\end{equation*}
+
+\paragraph{M.d.s. def.:} $\{u_t\}_{t \in \ZZ}$ is m.d.s. $\Leftrightarrow$
+\begin{equation*}
+    \EE[u_t | \mathcal{F}_s] =0, \quad \forall t > s.
+\end{equation*}
+By def., $\EE[u_t u_s] = 0$. An m.d.s. with finite, constant variance is $WN$.
+
+\paragraph{M.d.a. def.:} $\{u_{t,n}\}_{t=1}^n$ is m.d.a. $\Leftrightarrow$
+\begin{equation*}
+\EE[u_{t,n} | u_{t-1,n}, u_{t-2,n}, \ldots{}] = 0, \quad \forall t,n.
+\end{equation*}
+
+\paragraph{Marting. converg. thm:} Let $X_t$ be a martingale with $\var[X_t] < \Delta$. Then, as $t \rightarrow \infty$, $X_t \asarrow X_\infty$, where $X_\infty$ is a r.v. with $\var[X_\infty] < \Delta'$.
+
+\paragraph{Marting. LLN:} If $u_t$ is m.d.s. with $\EE[u_t^2] = \sigma_t^2$ and $\sup_t(\sigma_t^2) = C < \infty$, then
+\begin{align*}
+    \frac{1}{N}\sum_{t=1}^n u_t \asarrow 0.
+\end{align*}
+
+\paragraph{Marting. CLT:} If $X_{t,n}$ is a m.d.a. with bounded $\EE[|X_{t,n}|^{2+\delta_0}]$, and $\exists \bar{\sigma}_n^2 > \delta_0 > 0$ s.t. $n^{-1}\sum_{t=1}^n X_{t,n}^2 - \bar{\sigma}_n^2 \parrow 0$, then
+\begin{equation*}
+    \frac{n^{-1/2} \sum_{t=1}^n X_{t,n}}{\sqrt{\bar{\sigma}_n^2}} \darrow \mathcal{N}(0,1).
+\end{equation*}
+
+\section*{Asympt. Propert. of LP}
+\paragraph{Lemma on B-N Decompostion:} Let $\varphi(x) = \sum_{k=0}^\infty \varphi_k x^k$, where the seq. $\{\varphi_k\}$ is abs. sum. Then
+\begin{align*}
+    \varphi(x) = \varphi(1) - (1-x)\tilde{\varphi}(x), \quad \forall|x| < 1
+\end{align*}
+where $\tilde{\varphi}(x) = \sum_{k=0}^\infty \tilde{\varphi}_k x^k$ and $\tilde{\varphi}_k = \sum_{s=k+1}^\infty \varphi_s$.
+
+If a rand. seq. $u_t$ has $\sup_{t} \EE[|u_t|] < \infty$, then
+\begin{align*}
+    X_t \equiv \sum_{k=0}^\infty \varphi_k u_{t-k} = \varphi(L)(u_t)
+\end{align*}
+for some seq. $\varphi_k$ that is abs. sum. If also $\sum_{k=0}^\infty k |\varphi_k| < \infty$, then the B-N decomp. of $X_t$ is the RHS of
+\begin{align*}
+    X_t = u_t \sum_{k=0}^\infty \varphi_k + \tilde{u}_{t-1} - \tilde{u}_{t}.
+\end{align*}
+Note that $\sum_{k=0}^\infty \varphi_k = \varphi(1)$.
+
+\paragraph{A LLN:} If $u_t$ has $\sup_{t} \EE[|u_t|] < \infty$ and
+\begin{equation*}
+    \frac{1}{n}\sum_{t=1}^n (u_t - \EE[u_t]) \parrow 0~\text{as}~n\rightarrow \infty,
+\end{equation*}
+then,
+\begin{equation*}
+    \frac{1}{n}\sum_{t=1}^n(X_t - \EE[X_t]) \parrow 0, ~ \forall t,~\text{as}~n\rightarrow \infty
+\end{equation*}
+for an $X_t = \sum_{k=0}^\infty \varphi_k u_{t-k}$ def. by a seq. $\{\varphi_k\}_{k=0}^\infty$ s.t. $\sum_{k=0}^\infty k | \varphi_k| < \infty$.
+
+\paragraph{A CLT:} Take $u_t$ s.t. $\sup_{t}\EE[|u_t|] < \infty$ and $\{\varphi_t\}_{t =0}^\infty$ s.t. $\sum_{t=0}^\infty k |\varphi_k| < \infty$. Let $\sigma_{u,n}^2 = \var[\frac{1}{\sqrt{n}}\sum_{t=1}^n (u_t - \EE[u_t])]$ for any $n \geq 1$. If $\lim_{n \rightarrow \infty} \sigma_{u,n}^2 > 0$ and
+\begin{align*}
+    \frac{\sum_{t=1}^n (u_t - \EE[u_t])}{\sqrt{n \sigma_{u,n}^2}} \darrow \mathcal{N}(0,1),
+\end{align*}
+then\vspace{4pt}
+\begin{equation*}
+    \frac{\sum_{t=1}^n (X_t - \EE[X_t])}{\sqrt{n \sigma_{u,n}^2}} \darrow \mathcal{N}(0,(\varphi(1))^2),
+\end{equation*}
+where $X_t = \sum_{k=0}^\infty \varphi_k u_{t-k}$ for any $t$.
+
+\paragraph{LLN of sample auto co-var.:} If $u_t \sim iid(0, \sigma^2)$, and $\sum_{k=0}^\infty k |\varphi_k| < \infty$, then for $X_t = \sum_{k=0}^\infty \varphi_k u_{t-k}$,
+\begin{align*}
+    n^{-1}\sum_{t=1}^n X_tX_{t-h}\parrow \Gamma_X(h).
+\end{align*}
+
+\section*{Algebraic tricks}
+\scalebox{0.9}{\vbox{%
+\begin{align*}
+    &\sum_{k=1}^n k = \frac{n(n+1)}{2},
+    ~ \sum_{k=1}^n k^2 = \frac{n(n+1)(2n+1)}{6}, \\
+    &\sum_{k=1}^n k^3 = \frac{n^2(n+1)^2}{4}, ~
+    \sum_{k=0}^{n-1} a x^k =a \cdot \frac{1-x^n}{1-x}
+\end{align*}
+\begin{gather*}
+    \sum_{k=0}^{n-1} k a^k = \frac{(n-1)a^{n+1} - n a^k + a}{(a-1)^2}
+\end{gather*}
+}}
+\scalebox{0.9}{\vbox{%
+\begin{align*}
+    \int \cos^2(x)~\text{d}x &= \frac{1}{2}[x + \sin(x)\cos(x)] \\
+    \int \sin^2(x)~\text{d}x &= \frac{1}{2}[x - \sin(x)\cos(x)]
+\end{align*}}}
+\scalebox{0.9}{\vbox{%
+\begin{align*}
+    \lim_{n \rightarrow \infty} (1 + x/n)^n = e^x = \sum_{n=0}^\infty x^n/(n!)
+\end{align*}}}
+
+\section*{Examples}
+\subsection*{A simple test from Santos}
+\# obs. $n=1$ and $W\sim \mathcal{N}(\mu, 1)$; $\mu$ is unknown.
+\begin{gather*}
+    H_0: \mu \leq 0 ~\text{v.s.}~H_1: \mu > 0.
+\end{gather*}
+Note that $W \overset{d}{=} \mu + Z$, where $Z \sim \mathcal{N}(0,1)$.
+
+E.g., use $\phi(W) = \bi(W > c)$. Then,
+\begin{gather*}
+    \text{size of}~\phi = \sup_{\PP \in \mathbf{P}_0} \EE_{\PP}[\phi(W)] = \\
+    %
+    = \sup_{\mu \leq 0} \PP(Z > c - \mu) = \PP(W > c) \leq \alpha, ~ \Leftrightarrow \\
+    %
+    \PP(z > c_{1-\alpha}) = \alpha \Leftrightarrow c_{1-\alpha} = \Phi^{-1}(1-\alpha).
+\end{gather*}
+
+\subsection*{Another test from Santos}
+$\{W_i\}_{i=1}^n$ is i.i.d. with variance 1. $\mathbf{P} = \{\PP: \EE_{\PP}[(W - \EE_\PP[W])^2] = 1\}$. We want to test
+\begin{gather*}
+    \mathbf{P}_0: \{\EE_\PP[W] \leq 0\}~\text{v.s.}~\mathbf{P}_1: \{\EE_\PP[W] > 0\}.
+\end{gather*}
+For any $\PP$, $\sqrt{n}(\bar{W}_n - \EE_\PP[W]) \darrow \mathcal{N}(0,1)$. Then use test $\phi_n = \bi(\sqrt{n}\bar{W}_n > c_{1-\alpha})$.
+\begin{gather*}
+    \sup_{\PP \in \mathbf{P}_0} \lim_{n \rightarrow n} \PP(\sqrt{n}\bar{W}_n > c_{1-\alpha}) \leq \\
+    \leq \sup_{\PP \in \mathbf{P}_0} \lim_{n \rightarrow n} \PP(\sqrt{n} (\bar{W}_n - \EE_\PP[W]) > c_{1-\alpha}) = \\
+    \PP(Z > c_{1-\alpha}) = \alpha.
+\end{gather*}
+
+
+\subsection*{Linear trend regr.}
+$X_t = \mu t + u_t$, $u_t \sim iid(0,\sigma_u^2)$, $X_0 = 0$, and $Y_t = X_t \beta + \epsilon_t$, where $\epsilon \sim iid(0, \sigma_\epsilon^2)$, $\epsilon_t$, and $u_t$ are indep. 
+
+\emph{Derive asympt. distr. of OLS estimator.}
+\begin{align*}
+    \hat{\beta}_n &= \frac{\sum_{t=1}^n Y_t X_t}{\sum_{t=1}^n X_t^2} \quad \Leftrightarrow \\
+    \Leftrightarrow \quad \hat{\beta}_n - \beta &= \frac{\sum_{t=1}^n X_t \epsilon_t}{\sum_{t=1}^n X_t^2}.
+\end{align*}
+Then
+\begin{align*}
+    \frac{1}{n^3} \sum X_t^2 &= \overbrace{\frac{\mu^2}{n^3} \sum t^2}^{\rightarrow \mu^2/3} + \frac{2 \mu}{n^3} \sum t u_t + \\ 
+    & ~ + \frac{1}{n^3} \sum u_t^2 =
+\end{align*}
+\begin{gather*}
+    \var[\frac{2 \mu}{n^3}\sum t u_t] = \frac{4 \mu^2}{n^6} \sigma_u^2 \sum t^2 \rightarrow 0 \\
+    \Rightarrow \frac{2 \mu}{n^3}\sum t u_t = o_p(1), ~\text{by Markov ineq.}
+\end{gather*}
+By LLN, $\frac{1}{n^3} \sum u_t^2 = o_p(1)$. So $\frac{1}{n^3} \sum X_t^2 \rightarrow \frac{\mu^2}{3}$. Then consider the numerator:
+\begin{gather*}
+    \frac{1}{n^{3/2}} {\textstyle \sum} X_t \epsilon_t = \frac{\mu}{n^{3/2}} {\textstyle \sum} t \epsilon_t + \frac{1}{n^{3/2}} {\textstyle \sum} u_t \epsilon_t = \\
+    = \OO_p(1) + \OO_p(n^{-1}), ~\text{by Markov ineq.}
+\end{gather*}
+since
+\begin{gather*}
+    \var[\frac{\mu}{n^{3/2}} \sum t \epsilon_t] = \frac{\mu^2\sigma_\epsilon^2}{n^{3}} \sum t^2 \rightarrow \frac{\mu^2 \sigma_\epsilon^2}{3},
+\end{gather*}
+and
+\begin{gather*}
+    \var[\frac{1}{n^{3/2}} \sum u_t \epsilon_t] = \frac{\sigma_u^2 \sigma_\epsilon^2}{n^2}.
+\end{gather*}
+Then, by m-g CLT
+\begin{align*}
+    \var[\frac{\mu}{n^{3/2}} \sum t \epsilon_t] \darrow \mathcal{N}(0, \frac{\mu^2 \sigma_\epsilon^2}{3}).
+\end{align*}
+By Slutsky,
+\begin{gather*}
+    n^{3/2}(\hat{\beta}_n - \beta) \darrow \mathcal{N}(0, \frac{3\sigma_\epsilon^2}{\mu^2}).
+\end{gather*}
+\emph{What if $\epsilon_t$ and $u_s$ are correlated for $t = s$ (and not $t \neq s$)?} Only difference is that $\var[\frac{1}{n^{3/2}} \sum u_t \epsilon_t] \neq \sigma_u^2 \sigma_\epsilon^2$. But this doesn't affect the asympt. distr. of $\hat{\beta}_n$.
+
+\emph{Construct consistent estimates of $\mu$ and $\sigma_\epsilon^2$.}
+
+\begin{gather*}
+    \hat{\mu}_n = \frac{\sum t X_t}{\sum t^2} = \mu + \frac{\sum t u_t}{\sum t^2}
+\end{gather*}
+Denominator $\rightarrow \frac{1}{3}$ and numerator:
+\begin{gather*}
+    \frac{1}{n^3} \sum t u_t = o_p(1).
+\end{gather*}
+So $\hat{\mu}_n \parrow \mu$. For $\hat{\sigma}_\epsilon^2$:
+\begin{gather*}
+    \hat{\sigma}_\epsilon^2 = \frac{1}{n} \sum (Y_t - X_t \hat{\beta}_n)^2 = \\ 
+    \frac{1}{n} \sum \epsilon_t^2 - \frac{2}{n} (\hat{\beta}_n - \beta) \sum X_t \epsilon_t + \\
+    + \frac{1}{n}(\hat{\beta}_n - \beta)^2  \sum X_t^2.
+\end{gather*}
+$\frac{1}{n} \sum \epsilon_t^2 \darrow \sigma_\epsilon^2 + \OO_p(n^{-1/2})$ by iid CLT. From before, $(\hat{\beta}_n - \beta) = \OO_p(n^{-3/2})$ so $(\hat{\beta}_n - \beta)^2 = \OO_p(n^{-3})$ and $\frac{1}{n^3} \sum X_t^2 = \OO_p(1)$ implies $\frac{1}{n} \sum X_t^2 = \OO_p(n^2)$. Thus, $\frac{1}{n}(\hat{\beta}_n - \beta)^2 \sum X_t^2 = \OO_p(n^{-1})$. Also, $\frac{1}{n^{3/2}} \sum X_t \epsilon_t = \OO_p(1)$ implies $\frac{1}{n} \sum X_t \epsilon_t = \OO_p(n^{1/2})$. Therefore, $\frac{2}{n} (\hat{\beta}_n - \beta) \sum X_t \epsilon_t = \OO_p(n^{-1})$. In summary, $\hat{\sigma_\epsilon}^2) \parrow \sigma_\epsilon^2$.
+
+\subsection*{Two-sided hypoth. w/ unknown $\sigma^2$}
+Let $X_1, \ldots{}, X_n$ be iid $\mathcal{N}(\mu, \sigma^2)$ where $\sigma^2$ is unknown. Consider $H_0 : \mu = \mu_0$ v.s. $H_1 : \mu \neq \mu_0$.
+
+\emph{Define LR test for these hypotheses.}
+\begin{gather*}
+    LR = \frac{\max~f(\bar{X}, \mu, \sigma^2)}{\max~f(\bar{X}, \mu_0, \sigma^2)} = \\ 
+    %
+    = \frac{f(\bar{X}, \mu_{\text{MLE}}, \hat{\sigma}^2_{\text{MLE}})}{\max_{\sigma^2}~f(\bar{X}, \mu_0, \sigma^2)} \quad \Rightarrow \\
+    2\ln(LR) = n \ln\left(\frac{\sum (X_i - \mu_0)^2}{\sum (X_i - \bar{X}_n)^2}\right) \darrow \chi^2(1).
+\end{gather*}
+So, the (asymptotic) LR test is to reject $H_0$ iff
+\begin{gather*}
+    2\ln(LR) = n \ln\left(\frac{\sum (X_i - \mu_0)^2}{\sum (X_i - \bar{X}_n)^2}\right) > \chi_\alpha^2(1),
+\end{gather*}
+where $\chi^2_\alpha(1)$ is the $1-\alpha$ percentile of the $\chi^2$ distribution with df. 1.
+
+\emph{What’s the critical region of the likelihood ratio test with size $\alpha = 5\%$?}
+The critical region is
+\begin{gather*}
+    \{\bar{X}:n \ln\left(\frac{\sum (X_i - \mu_0)^2}{\sum (X_i - \bar{X}_n)^2}\right) > \chi_{.05}^2(1)\}.
+\end{gather*}
+
+
+\newcommand{\hu}{\hat{u}}
+\newcommand{\htt}{\hat{\theta}}
+\newcommand{\hrho}{\hat{\rho}}
+
+
+
+\subsection*{Estimate ARMA(1,1)}
+$X_t = \theta X_{t-1} + \epsilon_t + \epsilon_{t-1}$ where $\epsilon_t \sim iid(0, \sigma^2_\epsilon)$ and $|\theta| < 1$.
+
+\emph{Derive the distribution of the estimator}
+\begin{gather*}
+    \htt_n = \frac{\sum X_t X_{t-2}}{\sum X_{t-1}X_{t-2}}.
+\end{gather*}
+Estimator is equivalent to
+\begin{gather*}
+    \sqrt{n}(\htt_n - \theta) = \frac{\frac{1}{\sqrt{n}} \sum(\epsilon_t + \epsilon_{t-1})X_{t-2}}{\frac{1}{n} \sum X_{t-1}X_{t-2}}.
+\end{gather*}
+Denominator: \\
+Use LLN for sample auto-covar. $\Rightarrow \Gamma_X(1)$.
+
+Numerator:
+\begin{gather*}
+    \sum(\epsilon_t + \epsilon_{t-1})X_{t-2} = \\
+    = \frac{1}{\sqrt{n}} \ssum \epsilon_t(X_{t-2} + X_{t-1}) + o_p(1) + o_p(1).
+\end{gather*}
+The remaining term is a m.d.s. Take 
+\begin{gather*}
+    \bar{\sigma}_n = \EE[\epsilon_t^2(X_{t-2} + X_{t-1})^2] = \\
+    %
+    = 2(\Gamma_X(0) +\Gamma_X(1))\sigma_{\epsilon}^2.
+\end{gather*}
+Then use m-g CLT and Slutsky.
+
+\emph{Provide a test with size $\alpha$ for $\theta = 0$.}
+Use Wald test. Under $H_0: \theta = 0$, $\sqrt{n}\htt_n \darrow \mathcal{N}(0, K)$. So, critical region is $C = \{\htt_n > Z_{1-\frac{\alpha}{2}} \frac{K}{n} \} \cup \{\htt_n < -Z_{1-\frac{\alpha}{2}} \frac{K}{n} \}$.
+
+
+
+
+
+\subsection*{AR(1) error term}
+The model is $Y_t = \theta + u_t$ with $u_t = \rho u_{t-1} + \epsilon_t$ where $|\rho| < 1$, $\epsilon_t \sim iid ~\mathcal{N}(0, \sigma^2)$. All coefficients $\theta$, $\rho$, and $\sigma^2$ are unknown.
+\begin{gather*}
+    \hat{\theta}_n = \frac{1}{T}\sum_{t=1}^T Y_t \\
+    \hu_t \equiv Y_t - \htt.
+\end{gather*}
+\emph{Show that}
+\begin{gather*}
+    \hrho_T = \frac{\sum_{t=2}^T \hu_t \hu_{t-1}}{\sum_{t=2}^T \hu_t^2}
+\end{gather*}
+\emph{is a consistent estimator of $\rho$ and that $\hrho_T - \rho = \OO_p(T^{-1/2})$.}
+
+Observe that $\hu_t = u_t - (\htt_T - \theta)$.
+
+Denominator:
+\begin{gather*}
+    \frac{1}{T}{ \sum_{t=2}^T} \hu_t^2 = \\
+    %
+    = \frac{1}{T}{\textstyle \sum} u_t^2 + (\htt_T - \theta)^2 - \frac{2(\htt_T - \theta)}{T}{\textstyle \sum} u_t = \\
+    %
+    = T^{-1}{\textstyle \sum} u_t^2 + \OO_p(T)+  \OO_p(T^{-1}) = \\
+    = \EE[u_t^2] + \OO_p(T^{-1/2}) \parrow \frac{\sigma^2}{1-\rho^2}.
+\end{gather*}
+Numerator:
+\begin{gather*}
+    \frac{1}{T}{ \sum_{t=2}^T} \hu_t \hu_{t-1} = \\
+    %
+    = \frac{1}{T}{\textstyle \sum}[u_t - (\htt_T - \theta)][u_{t-1} - (\htt_T - \theta)] = \\
+    %
+    = \frac{1}{T} {\textstyle \sum}u_t u_{t-1} - \frac{\htt_T - \theta}{T}{\textstyle \sum_{t=2}^T} u_{t-1} - \\
+    - \frac{\htt_T - \theta}{T}{\textstyle \sum_{t=2}^T} u_{t} + \frac{T-1}{T}(\htt_T - \theta)^2 = \\
+    %
+    = \frac{1}{T} \sum_{t=2}^T u_t u_{t-1} + \OO_p(T^{-1}).
+\end{gather*}
+By def. of $u_t$
+\begin{gather*}
+    = \frac{\rho}{T} {\textstyle \sum}u_{t-1}^2 + \frac{1}{T} {\textstyle \sum}\epsilon_t u_{t-1} = \\
+    %
+    = \rho \EE[u_t^2] + \OO_p(T^{-1/2}).
+\end{gather*}
+Thus,
+\begin{gather*}
+    \hrho_T - \rho = \frac{T^{-1} \sum \hu_t \hu_{t-1}}{T^{-1} \sum \hu_t^2} - \rho = \\
+    = \frac{\OO_p(T^{-1/2})}{\EE[u_t^2] + \OO_p(T^{-1/2})} = \OO_p(T^{-1/2}).
+\end{gather*}
+Which is what we sought.
+
+\emph{Derive the prob. limit of}
+\begin{gather*}
+    \hat{\sigma}_{u,T}^2 = \frac{1}{T}\sum \hu_t^2.
+\end{gather*}
+\emph{and construct a root-$T$ consistent estimator of $\sigma^2$:}
+
+From before, $\hat{\sigma}_{u,T}^2 \parrow \frac{\sigma^2}{1-\rho^2}$.
+
+Given that $\hrho_T$ is consistent implies for the following estimator
+\begin{gather*}
+    \hat{\sigma}_T^2 = (1-\hrho_T^2)\hat{\sigma}_{u,T}^2 = \\
+    %
+    = (1-\rho^2 + \OO_p(T^{-1/2})) \cdot \\
+    %
+    \left(\frac{\sigma^2}{1-\rho^2} + \OO_p(T^{-1/2})\right) = \\
+    %
+    \sigma^2 + \OO_p(T^{-1/2}).
+\end{gather*}
+
+
+
+
+
+
+\subsection*{Sample size AR(1)}
+For a model $Y_t = 4\theta_0^2 Y_{t-1} + \epsilon_t$, by LLN for mixed processes,
+\begin{gather*}
+    \lim_{n\rightarrow \infty} n \var[\bar{Y}_n] = \frac{\sigma_\epsilon^2}{(1- 4 \theta_0^2)^2}.
+\end{gather*}
+\emph{How large a sample would we need in order to have 95\% CI s.t. $\bar{Y}_n$ differed from the true value zero by no more than 0.1?}
+
+The 95\% CI for the true value is
+\begin{gather*}
+    \{\bar{Y}_n \pm Z_{1-\frac{\alpha}{2}} \sqrt{\var[\bar{Y}_n]} \} = \\
+    = \{\bar{Y}_n \pm 1.96 \cdot \sqrt{\frac{\sigma_\epsilon^2}{n(1-4\theta_0^2)^2}} \}.
+\end{gather*}
+So we need $1.96 \cdot \sqrt{\frac{\sigma_\epsilon^2}{n(1-4\theta_0^2)^2}} \leq 0.1 \Leftrightarrow n \geq \frac{19.6^2 \sigma_\epsilon^2}{(1-4\theta_0^2)^2}$.
+
+\subsection*{Trend regr. \#2 (fall comp 2018)}
+\begin{gather*}
+    Y_t = \theta_0 \rho^t + \epsilon_t, \\
+    %
+    \rho^n(\htt_n - \theta_0) \darrow \mathcal{N}(0, \frac{\sigma^2(\rho^2-1))}{\rho^2}) \\
+    \rho^{-2n}\sum_{t=1}^n \rho^{2t} \rightarrow \frac{\rho^2}{\rho^2-1}
+\end{gather*}
+
+\subsection*{Exp. trend regr. (HW4)}
+\emph{Show consistency and limit. distr. for below estimator of following model.}
+\begin{gather*}
+    Y_t = \rho^t \theta_o + u_t,~u_t \sim \mathcal{N}(0, \sigma^2).
+\end{gather*}
+\newcommand{\hth}{\hat{\theta}}
+\begin{gather*}
+    \hth_n = \left(\sum_{t=1}^n \rho^{2t}\right)^{-1}\left(
+    \sum_{t=1}^n \rho^t Y_t
+    \right)
+\end{gather*}
+
+Use that $\Ltwoarrow$ implies $\parrow$.
+\begin{align*}
+    \EE[(\hth_n - \theta_o)^2] &= \EE[(\frac{\sum_{t=1}^n \rho^t Y_t}{\sum_{t=1}^n \rho^{2t}} - \theta_o)^2] = \\
+    &= \frac{\sigma^2}{\rho^2} \frac{\rho - 1}{\rho^{2n}- 1} \rightarrow 0 ~\text{as}~n\rightarrow \infty.
+\end{align*}
+So, $\hth_n \Ltwoarrow \theta_o$, which implies $\hth \parrow \theta_o$, i.e., that the estimator is consistent.
+
+\paragraph{Deriving limit. distr.:}
+Rewriting as
+\begin{align*}
+    \rho^{n}(\hth_n - \theta_o) &= \frac{\rho^{-n}\sum_{t=1}^n \rho^t u_t}{\frac{1}{\rho^{2n}}\sum_{t=1}^n \rho^{2t}}.
+\end{align*}
+The denominator:
+\begin{gather*}
+    \rho^{-2n}\sum_{t=1}^n \rho^{2t} = \rho^{-2n} \frac{\rho^{2n+2} - 1}{\rho^2 - 1} = \\
+    = \frac{\rho^2 - \rho^{-2n}}{\rho^2-1} \rightarrow \frac{\rho^2 }{\rho^2 -1}.
+\end{gather*}
+
+Numerator: Define $Z_n \equiv \sum_{t=1}^n \rho^{t-n} u_t = \sum_{t'=0}^{n-1} \rho^{-t'} u_{n-t'}$. Then, by i.i.d. $u_t \sim \mathcal{N}(0, \sigma^2)$,
+\begin{gather*}
+    Z_n \sim \mathcal{N}(0, \sum_{t'=0}^{n-1} (\rho^{-2})^{t'}\sigma^2) = \\
+    = \mathcal{N}(0, \sigma^2\frac{1-\rho^{-2n}}{1-\rho^{-2}}).
+\end{gather*}
+Then the MGF $M_n(t)$ of $Z_n$ is
+\begin{align*}
+    M_n(t) &= \exp(\sigma^2\frac{1-\rho^{-2n}}{1-\rho^{-2}} t^2).
+\end{align*}
+By Dominated convergence theorem, then
+\begin{align*}
+    \lim_{n \rightarrow \infty} M_n(t) &= \exp(\frac{\sigma^2}{1-\rho^{-2}}t^2).
+\end{align*}
+Conv. in MGF $\Leftrightarrow$ conv. in distribution.
+\begin{align*}
+    Z_\infty \sim \mathcal{N}(0, \frac{\rho^2\sigma^2}{\rho^2-1}).
+\end{align*}
+Then, by Slutsky,
+\begin{align*}
+    \rho^n(\hth_n - \theta_o) \darrow \mathcal{N}(0, \sigma^2\frac{\rho^2-1}{\rho^2}).
+\end{align*}
+
+\subsection*{Prob. 2 on HW4}
+\paragraph{Part (a):}
+$\exists \EE[X_t^4] \Rightarrow \exists \EE[X_t^2]$ by Jensen.
+
+$u_t \equiv X_t \epsilon_t$. This is a m.d.s.
+
+\newcommand{\bs}{\bar{\sigma}_n^2}%
+\begin{align*}
+    \frac{1}{n}\sum_{t=1}^n u_{t,n}^2 - \bs &= \frac{1}{n}\sum_{t=1}^n (X_t \epsilon_t)^2 - \bs.
+\end{align*}
+By LLN and Slutsky, $\frac{1}{n}\sum_{t=1}^n X_t^2\epsilon_t^2 \parrow \EE[X_t^2 \epsilon_t^2] = \EE[X_t^2]\Delta^2$. The last step follows from independence. Choose the sequence $\bs = \EE[X_t^2] \Delta^2$. Then,
+\begin{align*}
+    \frac{1}{n}\sum_{t=1}^n u_{t,n}^2 - \bs \parrow 0.
+\end{align*}
+Then we can use the Martingale CLT, i.e.,
+\begin{align*}
+    \frac{\sum_{t=1}^n X_t \epsilon_t}{\sqrt{n} \sqrt{\EE[X_t^2]\Delta^2}} &\darrow \mathcal{N}(0,1) \qquad \Leftrightarrow \\
+    \frac{\frac{\sum_{t=1}^n X_t \epsilon_t}{\sum_{t=1}^n X_t^2}}{\sqrt{n} \frac{\sqrt{\EE[X_t^2]\Delta^2}}{\sum_{t=1}^n X_t^2}} &\parrow \frac{\hat{\beta}_n - \beta_o}%
+    {  \frac{1}{\sqrt{n\EE[X_t^2]}}  \Delta} \darrow \mathcal{N}(0,1).
+\end{align*}
+Use Slutsky to get the above. This is the sought result,
+\begin{equation*}
+\frac{\sqrt{n\EE[X_t^2]} (\hat{\beta}_n - \beta_o)}{\Delta}\darrow \mathcal{N}(0,1).
+\end{equation*}
+
+\paragraph*{Part (b):}
+\begin{align*}
+    \hat{\Delta}_n^2 &= \frac{1}{n} \sum_{t=1}^n \left( X_t \beta_o + \epsilon_t - X_t \hat{\beta}_n\right)^2 = \\
+    %
+    &= \frac{1}{n} \sum_{t=1}^n [ \epsilon_t^2 + 2\epsilon X_t(\beta_o - \hat{\beta}_n) + \\
+    &\qquad \qquad +X_t^2 (\beta_o - \hat{\beta}_n)^2 ].
+\end{align*}
+First term $\parrow \Delta^2$ by LLN; the middle term $o_p(1)$ by LLN; for the last term we use the result in (a) to note that $(\beta_o - \hat{\beta}_n)^2$ is $\mathcal{O}_p(n^{-1})$ while $\frac{1}{n}X_t^2 \parrow \EE[X_t^2]$ by LLN. The product of the two is $o_p(1)$ as $n\rightarrow \infty$. Thus,
+\begin{equation*}
+    \hat{\Delta}_n^2 \parrow \Delta^2.
+\end{equation*}
+
+\paragraph*{Part (c):}
+Note that
+\begin{equation*}
+    \frac{1}{n}\sum_{t=1}^n X_t^2 \parrow \EE[X_t^2]
+\end{equation*}
+by LLN. Combine this with (a) and (b), then by Slutsky,
+\begin{equation*}
+    \displaystyle \sqrt{\frac{\sum_{t=1}^n X_t^2}{\hat{\Delta}_n^2}}(\hat{\beta}_n - \beta_o) \darrow \mathcal{N}(0,1).
+\end{equation*}
+
+\subsection*{MLE}
+$\mu_{MLE} = \bar{X}_n$ and  $\sigma^2_{MLE} =\frac{1}{n} \sum_{i=1}^n (x_i - \mu)^2$, which are derived a follows if $X_i, \ldots{}, X_n$ are i.i.d and $\mathcal{N}(\mu, \sigma^2)$:
+\begin{gather*}
+    \mathcal{L}(X_1, \ldots{}, X_n) = \\ = \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}} \exp(\frac{-(x_i-\mu)^2}{2\sigma^2}) = \\
+    = (2\pi\sigma^2)^{-n/2} \exp\left(\frac{-\sum_{i=1}^n(x_i-\mu)^2}{2\sigma^2}\right),  
+\end{gather*}
+then take logs, then take FOC w.r.t. $\mu$ and $\sigma^2$ to obtain the result.
+
+
+
+
+\end{multicols*}
+
+\newpage
+\end{document}
